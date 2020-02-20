@@ -1,0 +1,27 @@
+{
+  "name": "spotify-tools",
+  "version": "0.1.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "cd server && npm run start",
+    "dev": "npx env-cmd -f .dev.env npx npm-run-all -l -p dev:*",
+    "build": "npx env-cmd -f .prod.env npx npm-run-all clean:server build:* copy:*",
+    "dev:frontend": "cd frontend && npm run start",
+    "dev:server": "cd server && npm run dev",
+    "build:server": "cd server && npm run build",
+    "build:frontend": "cd frontend && npm run build",
+    "copy:frontend": "npx ncp frontend/build server/dist/static",
+    "copy:env": "npx ncp .prod.env server/dist/.env",
+    "clean": "npx npm-run-all clean:*",
+    "clean:server": "cd server && npm run clean",
+    "clean:app": "npx rimraf app",
+    "install": "npx npm-run-all install:*",
+    "install:server": "cd server && npm install",
+    "install:frontend": "cd frontend && npm install",
+    "eject": "npm run clean:app && npx ncp server/dist app/ && npx ncp server/node_modules app/node_modules && node .scripts/eject-copy-package.js app/package.json"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "MIT"
+}
