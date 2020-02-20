@@ -1,26 +1,25 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import "./App.css";
 
-import Another from 'nested/Another'
+const loginUrl = `https://accounts.spotify.com/authorize`;
+
+const addQueryParams = (url, params) => {
+  const query = Object.keys(params)
+    .reduce((agg, key) => `${agg}${key}=${params[key]}&`, "")
+    .slice(0, -1);
+  return `${url}${query && "?"}${query}`;
+};
 
 function App() {
+  const loginParams = {
+    client_id: "988c958d2c054c3194dc99aa0c71e2c8",
+    response_type: "code",
+    redirect_uri: "http://localhost:8888/api/spotify/authcallback",
+    scope: "playlist-read-private"
+  };
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <a href={addQueryParams(loginUrl, loginParams)}>Login to Spotify</a>
     </div>
   );
 }
