@@ -1,35 +1,35 @@
-import { URLSearchParams } from "url";
-import fetch, { Headers } from "node-fetch";
-import { database } from "../../database";
+import { URLSearchParams } from 'url';
+import fetch from 'node-fetch';
+import spotifyCreds from './creds';
 
-const clientID = "988c958d2c054c3194dc99aa0c71e2c8";
-const clientSecret = "9d910ef3edc8489d9751c70a7ff00c74";
+const redirectURL = () => {
+  if (process.env.NODE_ENV === 'development') return process.env.BASE_URL_FRONTEND;
+  return '/';
+};
 
 export default async (req, res) => {
-  console.log("Auth!");
-
   const { code, error } = req.query;
-
+  console.log('Redirect url is ', redirectURL());
   if (error) {
-    // handle error
+    res.redirect(303, `${redirectURL()}#failed`);
   } else {
     const params = new URLSearchParams();
-    params.append("grant_type", "authorization_code");
-    params.append("code", code);
+    params.append('grant_type', 'authorization_code');
+    params.append('code', code);
     params.append(
-      "redirect_uri",
-      "http://localhost:8888/api/spotify/authcallback"
+      'redirect_uri',
+      'http://localhost:8888/api/spotify/authcallback'
     );
-    params.append("client_id", clientID);
-    params.append("client_secret", clientSecret);
-    const res = await fetch("https://accounts.spotify.com/api/token", {
-      method: "POST",
-      body: params
+    params.append('client_id', spotifyCreds.client_id);
+    params.append('client_secret', spotifyCreds.client_secret);
+    const response = await fetch('https://accounts.spotify.com/api/token', {
+      method: 'POST',
+      body: params,
     });
-    const jsonRes = await res.json();
-    console.log(jsonRes);
+    const jsonRes = await response.json();
+    res.cookie('spotify_access_token', jsonRes.access_token, { maxAge: jsonRes.expires_in * 1000 });
+    res.cookie('spotify_refresh_token', jsonRes.refresh_token, { maxAge: 365 * 24 * 60 * 60 * 1000 });
+    res.cookie('spotify_refresh_seconds', jsonRes.expires_in, { maxAge: jsonRes.expires_in * 1000 });
+    res.redirect(303, redirectURL());
   }
-
-  console.log(req.query);
-  res.status(200).send();
 };

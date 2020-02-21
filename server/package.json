@@ -4,7 +4,7 @@
   "description": "",
   "scripts": {
     "start": "cross-env NODE_ENV=production node -r dotenv/config dist/index.js",
-    "dev": "cross-env NODE_DEV=development nodemon src/index.js --exec babel-node",
+    "dev": "cross-env NODE_ENV=development nodemon src/index.js --exec babel-node",
     "build": "npm run clean && babel src -d dist",
     "clean": "rimraf dist",
     "lint": "eslint src"
