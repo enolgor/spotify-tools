@@ -1,5 +1,5 @@
 import Cookies from 'js-cookie';
-import { spotifyLogin } from './actions';
+import { spotifyNewCredentialsAction } from './actions';
 
 const refreshTokens = (cb) => {
   const refreshToken = Cookies.get('spotify_refresh_token');
@@ -24,7 +24,7 @@ const getTokensAndDispatch = (store, secondTime) => {
     if (!secondTime) {
       refreshTokens(() => getTokensAndDispatch(store, true));
     } else {
-      store.dispatch(spotifyLogin({
+      store.dispatch(spotifyNewCredentialsAction({
         accessToken,
         refreshToken,
       }));

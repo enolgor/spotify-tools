@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 const loginUrl = 'https://accounts.spotify.com/authorize';
 const redirectUri = process.env.REACT_APP_SPOTIFY_AUTH_CALLBACK;
 const clientId = process.env.REACT_APP_SPOTIFY_CLIENT_ID;
-const scopes = ['playlist-read-private'];
+const scopes = ['playlist-read-private', 'user-read-recently-played', 'playlist-modify-private'];
 
 const addQueryParams = (url, params) => {
   const query = Object.keys(params)
@@ -14,20 +14,20 @@ const addQueryParams = (url, params) => {
   return `${url}${query && '?'}${query}`;
 };
 
-function SpotifyLogin({ spotifyLogin, children }) {
+function SpotifyLogin({ credentials, children }) {
   const queryParams = {
     redirect_uri: redirectUri,
     client_id: clientId,
     response_type: 'code',
     scope: scopes.join(' '),
   };
-  return !spotifyLogin.refreshToken
+  return !credentials.refreshToken
     ? <a href={addQueryParams(loginUrl, queryParams)}>Login to Spotify</a>
     : children;
 }
 
-const mapStateToProps = ({ spotifyLogin = {} }) => ({
-  spotifyLogin,
+const mapStateToProps = (state) => ({
+  credentials: state.spotify.credentials,
 });
 
 export default connect(mapStateToProps)(SpotifyLogin);
