@@ -17,10 +17,7 @@ export default async (req, res) => {
     const params = new URLSearchParams();
     params.append("grant_type", "authorization_code");
     params.append("code", code);
-    params.append(
-      "redirect_uri",
-      "http://localhost:8888/api/spotify/authcallback"
-    );
+    params.append("redirect_uri", process.env.REACT_APP_SPOTIFY_AUTH_CALLBACK);
     params.append("client_id", spotifyCreds.client_id);
     params.append("client_secret", spotifyCreds.client_secret);
     const response = await fetch("https://accounts.spotify.com/api/token", {
