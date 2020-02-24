@@ -1,14 +1,16 @@
+import { spotiFetch, spotiApi } from 'spotilib';
+
 import {
   SPOTIFY_NEW_CREDENTIALS,
   SPOTIFY_SET_LAST_PLAYED_SONGS,
   SPOTIFY_SET_USER_INFO,
   SPOTIFY_SET_USER_PLAYLISTS,
-} from './actions'
+} from './actions';
 
 export default (state = {}, action) => {
   switch (action.type) {
     case SPOTIFY_NEW_CREDENTIALS: {
-      return {
+      const newState = {
         ...state,
         spotify: {
           ...state.spotify,
@@ -18,6 +20,8 @@ export default (state = {}, action) => {
           },
         },
       };
+      newState.spotify.spotiApi = spotiApi(spotiFetch(fetch, newState.spotify.credentials));
+      return newState;
     }
     case SPOTIFY_SET_LAST_PLAYED_SONGS: {
       return {

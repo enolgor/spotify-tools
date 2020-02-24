@@ -3,16 +3,14 @@
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import { spotifySetUserInfoAction } from './actions';
-import spotiFetch from './spotiFetch';
 
-function Greeting({ credentials, userInfo, onUserInfoFetched }) {
+function Greeting({ spotiApi, userInfo, onUserInfoFetched }) {
   useEffect(() => {
     (async () => {
-      const sf = spotiFetch(credentials);
-      const info = await sf.get('/me');
+      const info = await spotiApi.getUserInfo();
       onUserInfoFetched(info);
     })();
-  }, [credentials, onUserInfoFetched]);
+  }, [spotiApi, onUserInfoFetched]);
   return (
     <div>
       Hello&nbsp;
@@ -23,7 +21,7 @@ function Greeting({ credentials, userInfo, onUserInfoFetched }) {
 
 // eslint-disable-next-line no-shadow
 const mapStateToProps = (state) => ({
-  credentials: state.spotify.credentials,
+  spotiApi: state.spotify.spotiApi,
   userInfo: state.spotify.userInfo,
 });
 

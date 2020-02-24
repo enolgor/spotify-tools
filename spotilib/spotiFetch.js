@@ -1,6 +1,6 @@
 const baseUrl = 'https://api.spotify.com/v1';
 
-export default (credentials) => {
+module.exports = (fetch, credentials) => {
   const createOpts = () => ({
     headers: {
       Authorization: `Bearer ${credentials.accessToken}`,

@@ -3,7 +3,6 @@
 import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import { spotifySetUserPlaylistsAction } from './actions';
-import spotiFetch from './spotiFetch';
 import createCombinedPlaylist from './createCombinedPlaylist';
 
 function PlaylistItem({ playlistName, onCheckBoxChange }) {
@@ -12,7 +11,7 @@ function PlaylistItem({ playlistName, onCheckBoxChange }) {
   );
 }
 
-function UserPlaylists({ credentials, onUserPlaylistsFetched, playlists, userInfo }) {
+function UserPlaylists({ spotiApi, onUserPlaylistsFetched, playlists, userInfo }) {
   const [selectedPlaylists, setSelectedPlaylists] = useState([]);
   const [newPlaylistName, setNewPlaylistName] = useState('');
   const selectPlaylist = (id, selected) => {
@@ -27,19 +26,17 @@ function UserPlaylists({ credentials, onUserPlaylistsFetched, playlists, userInf
   };
   useEffect(() => {
     (async () => {
-      const sf = spotiFetch(credentials);
-      const fetchedPlaylists = await sf.getAll('/me/playlists');
+      const fetchedPlaylists = await spotiApi.getAllUserPlaylists();
       onUserPlaylistsFetched(fetchedPlaylists);
     })();
-  }, [credentials, onUserPlaylistsFetched]);
+  }, [spotiApi, onUserPlaylistsFetched]);
   const combinePlaylists = () => {
     if (selectedPlaylists.length === 0) return;
     (async () => {
-      const sf = spotiFetch(credentials);
-      const ok = await createCombinedPlaylist(sf, newPlaylistName, selectedPlaylists, userInfo.id);
+      const ok = await createCombinedPlaylist(spotiApi, newPlaylistName, selectedPlaylists, userInfo.id);
       alert(ok ? 'Playlist created successfully' : 'There was an error creating the playlist');
       setNewPlaylistName('');
-      const fetchedPlaylists = await sf.getAll('/me/playlists');
+      const fetchedPlaylists = await spotiApi.getAllUserPlaylists();
       onUserPlaylistsFetched(fetchedPlaylists);
     })();
   };
@@ -53,7 +50,7 @@ function UserPlaylists({ credentials, onUserPlaylistsFetched, playlists, userInf
 
 // eslint-disable-next-line no-shadow
 const mapStateToProps = (state) => ({
-  credentials: state.spotify.credentials,
+  spotiApi: state.spotify.spotiApi,
   playlists: state.spotify.playlists,
   userInfo: state.spotify.userInfo,
 });
