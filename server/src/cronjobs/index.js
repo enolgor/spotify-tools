@@ -1,4 +1,5 @@
-import schedule from "node-schedule";
+import schedule from 'node-schedule';
+import resyncJob from './resync';
 
 const cronjobs = {};
 
@@ -16,22 +17,11 @@ cronjobs.schedule = ({ name, rule, job }) => {
         console.error(`Error execution cronjob ${name}: ${e}`);
       }
       console.log(`Finished execution of cronjob ${name}`);
-    })
+    }),
   );
 };
-/*
-cronjobs.jobs = [
-  {
-    name: "generate-stats",
-    rule: "0 1 * * *",
-    job: Statistics.generate
-  },
-  {
-    name: "remove-old-intermw-messages",
-    rule: "0 2 * * *",
-    job: async () => IntermwMessages.purgeOldData(100)
-  }
-];*/
+
+cronjobs.jobs = [resyncJob];
 
 cronjobs.scheduleAll = () => {
   cronjobs.jobs.forEach(cronjobs.schedule);

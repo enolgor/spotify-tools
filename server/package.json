@@ -31,6 +31,7 @@
     "morgan": "^1.9.1",
     "nedb": "^1.8.0",
     "node-fetch": "^2.6.0",
-    "node-schedule": "^1.3.2"
+    "node-schedule": "^1.3.2",
+    "spotilib": "file:../spotilib"
   }
 }

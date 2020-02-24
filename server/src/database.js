@@ -9,6 +9,8 @@ const promisifyAll = (obj) => Object
 
 const handler = {};
 
+handler.database = {};
+
 handler.init = async (filename) => {
   const db = new Datastore({ filename });
   const dbp = promisifyAll(db);
@@ -16,6 +18,7 @@ handler.init = async (filename) => {
   await dbp.loadDatabase();
 
   handler.database = dbp;
+  global.database = handler.database;
 };
 
 export default handler;
