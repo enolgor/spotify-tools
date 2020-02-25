@@ -39,9 +39,23 @@ module.exports = (fetch, credentials) => {
     return jsonResp;
   };
 
+  const put = async (path, jsonBody, fullUrl = false) => {
+    const opts = createOpts();
+    opts.method = 'PUT';
+    if (jsonBody) {
+      opts.headers['Content-Type'] = 'application/json';
+      opts.body = JSON.stringify(jsonBody);
+    }
+    const url = fullUrl ? path : `${baseUrl}${path}`;
+    const resp = await fetch(url, opts);
+    const jsonResp = await resp.json();
+    return jsonResp;
+  };
+
   return {
     get,
     getAll,
     post,
+    put,
   };
 };

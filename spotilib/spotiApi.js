@@ -18,7 +18,5 @@ module.exports = (sf) => ({
     })));
     return await Promise.all(promises);
   },
-  clearTracksFromPlaylist: async (playlistId) => {
-
-  },
+  clearTracksFromPlaylist: async (playlistId) => await sf.put(`/playlists/${playlistId}/tracks`, { uris: ['spotify:track:7tiu52iT5YeFY7QhOCpmOs'] }),
 });
