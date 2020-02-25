@@ -8,10 +8,16 @@ const creds = {
   clientSecret: process.env.SPOTIFY_CLIENT_SECRET,
 };
 
+const onlyUnique = (value, index, self) => self.indexOf(value) === index;
+
 const syncPlaylist = async (api, dest, origs) => {
-  const resp = await api.clearTracksFromPlaylist(dest);
-  console.log(resp);
-  console.log(`Syncing ${dest} and ${origs}`);
+  await api.clearTracksFromPlaylist(dest);
+  const tracks = [];
+  await Promise.all(origs.map(async (playlistId) => {
+    const response = await api.getAllPlaylistTracks(playlistId);
+    tracks.push(...response.items.map((item) => item.track.uri));
+  }));
+  await api.addAllTracksToPlaylist(dest, tracks.filter(onlyUnique));
 };
 
 const syncForUser = async (user, refToken) => {
