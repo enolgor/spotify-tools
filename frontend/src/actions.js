@@ -26,3 +26,10 @@ export const spotifySetUserPlaylistsAction = ({ playlists }) => ({
   type: SPOTIFY_SET_USER_PLAYLISTS,
   playlists,
 });
+
+export const SET_USER_LINKED_PLAYLISTS = 'SET_USER_LINKED_PLAYLISTS';
+
+export const setUserLinkedPlaylistsAction = ({ linked }) => ({
+  type: SET_USER_LINKED_PLAYLISTS,
+  linked,
+});

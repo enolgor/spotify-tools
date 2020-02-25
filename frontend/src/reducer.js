@@ -5,6 +5,7 @@ import {
   SPOTIFY_SET_LAST_PLAYED_SONGS,
   SPOTIFY_SET_USER_INFO,
   SPOTIFY_SET_USER_PLAYLISTS,
+  SET_USER_LINKED_PLAYLISTS,
 } from './actions';
 
 export default (state = {}, action) => {
@@ -48,6 +49,12 @@ export default (state = {}, action) => {
           ...state.spotify,
           playlists: action.playlists,
         },
+      };
+    }
+    case SET_USER_LINKED_PLAYLISTS: {
+      return {
+        ...state,
+        linked: action.linked,
       };
     }
     default: {

@@ -9,4 +9,5 @@ export default {
     userInfo: { display_name: 'things' },
     playlists: { items: [] },
   },
+  linked: [],
 };

@@ -41,7 +41,7 @@ const syncForUser = async (user, refToken) => {
 
 export default {
   name: 'resync',
-  rule: '* * * * *',
+  rule: '0 * * * *',
   job: async () => {
     const credentials = await getAllCredentials();
     await Promise.all(

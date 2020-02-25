@@ -1,6 +1,9 @@
 import express from 'express';
-import { createLinkedPlaylist } from '../../spotidb';
-import { getLinkedPlaylists } from '../../spotidb';
+import {
+  createLinkedPlaylist,
+  getLinkedPlaylists,
+  deleteLinkedPlaylist,
+} from '../../spotidb';
 
 const app = express();
 
@@ -29,7 +32,18 @@ const getLinks = async (req, res) => {
   }
 };
 
+const deleteLink = async (req, res) =>{
+  const { userId, dest } = req.params;
+  try {
+    await deleteLinkedPlaylist(userId, dest);
+    res.status(200).send();
+  } catch (error) {
+    res.status(500).send(error);
+  }
+};
+
 app.post('/create/:userId/:dest', createLink);
+app.get('/delete/:userId/:dest', deleteLink);
 app.get('/:userId', getLinks);
 
 export default app;

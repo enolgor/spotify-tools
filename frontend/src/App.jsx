@@ -3,6 +3,7 @@ import './App.css';
 import SpotifyLogin from './SpotifyLogin';
 import Greeting from './Greeting';
 import UserPlaylists from './UserPlaylists';
+import SyncedPlaylists from './SyncedPlaylists';
 
 function App() {
   return (
@@ -11,6 +12,8 @@ function App() {
         <Greeting />
         <br />
         <UserPlaylists />
+        <br />
+        <SyncedPlaylists />
       </SpotifyLogin>
     </div>
   );

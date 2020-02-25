@@ -9,11 +9,6 @@ import * as serviceWorker from './serviceWorker';
 import spotifyTokenCtrl from './spotifyTokenCtrl';
 import initialState from './state';
 
-(async () => {
-  const resp = await fetch('/api/spotify/links/eogorriti');
-  console.log(await resp.json());
-})();
-
 const store = createStore(reducers,
   initialState,
   // eslint-disable-next-line no-underscore-dangle
