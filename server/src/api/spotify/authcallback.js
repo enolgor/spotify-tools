@@ -1,6 +1,6 @@
 import { URLSearchParams } from 'url';
 import fetch from 'node-fetch';
-import { spotiFetch, spotiApi } from 'spotilib';
+import spoti from 'spotilib';
 import spotifyCreds from './creds';
 import { upsertRefreshToken } from '../../spotidb';
 
@@ -27,11 +27,11 @@ export default async (req, res) => {
       body: params,
     });
     const jsonRes = await response.json();
-    const sf = spotiFetch(fetch, {
+    const sf = spoti.fetch(fetch, {
       accessToken: jsonRes.access_token,
       refreshToken: jsonRes.refresh_token,
     });
-    const userInfo = await spotiApi(sf).getUserInfo();
+    const userInfo = await spoti.api(sf).getUserInfo();
     await upsertRefreshToken(userInfo.id, jsonRes.refresh_token);
     res.cookie('spotify_access_token', jsonRes.access_token, {
       maxAge: jsonRes.expires_in * 1000,

@@ -12,7 +12,7 @@
     "build:server": "cd server && npm run build",
     "build:frontend": "cd frontend && npm run build",
     "copy:frontend": "npx ncp frontend/build server/dist/static",
-    "copy:env": "npx ncp .prod.env server/dist/.env",
+    "copy:env": "npx ncp .prod.env server/dist/.env && npx ncp .prod.env server/.env",
     "clean": "npx npm-run-all clean:*",
     "clean:server": "cd server && npm run clean",
     "clean:app": "npx rimraf app",

@@ -1,4 +1,4 @@
-import { spotiFetch, spotiApi } from 'spotilib';
+import spoti from 'spotilib';
 
 import {
   SPOTIFY_NEW_CREDENTIALS,
@@ -21,7 +21,7 @@ export default (state = {}, action) => {
           },
         },
       };
-      newState.spotify.spotiApi = spotiApi(spotiFetch(fetch, newState.spotify.credentials));
+      newState.spotify.spotiApi = spoti.api(spoti.fetch(fetch, newState.spotify.credentials));
       return newState;
     }
     case SPOTIFY_SET_LAST_PLAYED_SONGS: {

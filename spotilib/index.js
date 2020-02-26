@@ -1,7 +1,7 @@
-const spotiFetch = require('./spotiFetch');
-const spotiApi = require('./spotiApi');
+const fetch = require('./spotiFetch');
+const api = require('./spotiApi');
 
 module.exports = {
-  spotiFetch,
-  spotiApi,
+  fetch,
+  api,
 };

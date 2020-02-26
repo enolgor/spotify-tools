@@ -1,5 +1,5 @@
 import fetch from 'node-fetch';
-import { spotiFetch, spotiApi } from 'spotilib';
+import spoti from 'spotilib';
 import { getAllCredentials, getLinkedPlaylists } from '../spotidb';
 import { refreshToken } from '../api/spotify/refreshToken';
 
@@ -28,11 +28,11 @@ const syncForUser = async (user, refToken) => {
     creds.clientSecret,
   );
   const accessToken = jsonRes.access_token;
-  const sf = spotiFetch(fetch, {
+  const sf = spoti.fetch(fetch, {
     accessToken,
     refreshToken: refToken,
   });
-  const api = spotiApi(sf);
+  const api = spoti.api(sf);
   const links = await getLinkedPlaylists(user);
   return Promise.all(
     links.map((entry) => syncPlaylist(api, entry.dest, entry.origins)),
