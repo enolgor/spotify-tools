@@ -19,7 +19,7 @@
     "install": "npx npm-run-all install:*",
     "install:server": "cd server && npm install",
     "install:frontend": "cd frontend && npm install",
-    "eject": "npm run clean:app && npx ncp server/dist app/ && npx ncp server/node_modules app/node_modules && node .scripts/eject-copy-package.js app/package.json"
+    "eject": "npm run clean:app && npx ncp server/dist app/ && npx ncp server/node_modules app/node_modules && npx ncp spotilib app/node_modules/spotilib && node .scripts/eject-copy-package.js app/package.json"
   },
   "keywords": [],
   "author": "",
